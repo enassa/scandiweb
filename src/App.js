@@ -1,58 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { Component, Fragment } from "react";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/home/Home";
+import { URLS } from "./utils/routes";
+import ProductList from "./pages/product-list/ProductList";
+import { ApolloProvider } from "@apollo/client";
+import { client } from "./services/apollo/Apollo";
+import KartDetailsjs from "./pages/kart-details/KartDetails";
+import ComponentList from "./pages/component-list/ComponentList";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  render() {
+    return (
+      <ApolloProvider client={client}>
+        <Fragment>
+          <Routes>
+            <Route path={URLS.home.route} element={<Home />}>
+              <Route path={URLS.listProducts.route} element={<ProductList />} />
+              <Route
+                path={URLS.showDetails.route}
+                element={<KartDetailsjs />}
+              />
+              <Route
+                path={URLS.allComponents.route}
+                element={<ComponentList />}
+              />
+            </Route>
+          </Routes>
+        </Fragment>
+      </ApolloProvider>
+    );
+  }
 }
-
-export default App;
